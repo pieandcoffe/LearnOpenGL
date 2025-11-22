@@ -10,7 +10,7 @@ find_package(OpenGL REQUIRED)
 include_directories(include)
 
 add_executable(LearnOpenGL
-        main.cpp
+        src/main.cpp
         src/glad.c
         src/window.cpp
 )
