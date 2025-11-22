@@ -1,0 +1,55 @@
+# -------------------------
+# OS / Editor / IDE junk
+# -------------------------
+.DS_Store
+.idea/
+*.swp
+*.swo
+
+# -------------------------
+# CLion / JetBrains
+# -------------------------
+cmake-build-*/
+.idea/*
+*.iml
+
+# -------------------------
+# CMake
+# -------------------------
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+Makefile
+build/
+build.*/
+install/
+*.cmake
+
+# -------------------------
+# Build output
+# -------------------------
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+*.lib
+*.exe
+*.out
+
+# Ninja
+build.ninja
+rules.ninja
+.ninja_deps
+.ninja_log
+
+# -------------------------
+# macOS metadata
+# -------------------------
+._*
+.Spotlight-V100
+.Trashes
