@@ -1,0 +1,49 @@
+BasedOnStyle: LLVM
+
+# Core layout
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+
+# Braces
+BreakBeforeBraces: Allman
+
+# Indentation rules
+NamespaceIndentation: All
+IndentCaseLabels: true
+IndentPPDirectives: AfterHash
+
+# Spaces
+SpaceBeforeParens: ControlStatements
+SpacesInAngles:  false
+SpacesInContainerLiterals: true
+
+# Pointers & references
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Includes
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '^<.*\.h>$'
+    Priority:        1
+  - Regex:           '^".*"$'
+    Priority:        2
+
+# Trailing commas (nice for multi-line vectors/arrays)
+Cpp11BracedListStyle: true
+
+# Short functions
+AllowShortFunctionsOnASingleLine: Empty
+
+# Lambdas & modern C++
+LambdaBodyIndentation: Signature
+
+# Comment formatting
+ReflowComments: true
+
+# Constructor initializer formatting
+BreakConstructorInitializersBeforeComma: true
+ConstructorInitializerIndentWidth: 4

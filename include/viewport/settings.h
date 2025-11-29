@@ -11,16 +11,17 @@
  * Provides compile-time configuration related to the window,
  * OpenGL context, and clear color values.
  */
-struct Settings {
+struct Settings
+{
     // -----------------------------
     // Window settings
     // -----------------------------
 
     /** @brief Width of the application window in pixels. */
-    static constexpr unsigned int WINDOW_WIDTH = 800;
+    static constexpr unsigned int WINDOW_WIDTH = 600;
 
     /** @brief Height of the application window in pixels. */
-    static constexpr unsigned int WINDOW_HEIGHT = 600;
+    static constexpr unsigned int WINDOW_HEIGHT = 400;
 
     /** @brief Title of the window shown in the title bar. */
     static constexpr const char* WINDOW_TITLE = "LearnOpenGL";
@@ -40,13 +41,13 @@ struct Settings {
     // -----------------------------
 
     /** @brief Red component of the default clear color (0.0–1.0). */
-    static constexpr float CLEAR_COLOR_R = 0.81f;
+    static constexpr float CLEAR_COLOR_R = 0.21f;
 
     /** @brief Green component of the default clear color (0.0–1.0). */
-    static constexpr float CLEAR_COLOR_G = 0.81f;
+    static constexpr float CLEAR_COLOR_G = 0.61f;
 
     /** @brief Blue component of the default clear color (0.0–1.0). */
-    static constexpr float CLEAR_COLOR_B = 0.81f;
+    static constexpr float CLEAR_COLOR_B = 0.61f;
 
     /** @brief Alpha component of the default clear color (0.0–1.0). */
     static constexpr float CLEAR_COLOR_A = 1.0f;
