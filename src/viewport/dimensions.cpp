@@ -4,8 +4,6 @@
 
 #include "viewport/dimensions.h"
 
-#include <glad/glad.h>
-
 namespace Viewport
 {
     // Getters

@@ -4,7 +4,6 @@
 
 #include "viewport/window.h"
 
-#include <glad/glad.h>
 #include <iostream>
 
 #include "viewport/dimensions.h"

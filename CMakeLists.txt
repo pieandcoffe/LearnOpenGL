@@ -3,15 +3,55 @@ project(LearnOpenGL)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Packages
-find_package(glfw3 REQUIRED)
-find_package(glm REQUIRED)
-find_package(OpenGL REQUIRED)
+# -------------------------------------------------------
+# Platform-specific configuration
+# -------------------------------------------------------
 
+if(APPLE)
+    find_package(glfw3 REQUIRED)
+    find_package(glm REQUIRED)
+    find_package(OpenGL REQUIRED)
+
+    set(PLATFORM_LIBS
+            glfw
+            glm::glm
+            OpenGL::GL
+            "-framework Cocoa"
+            "-framework IOKit"
+            "-framework CoreVideo"
+    )
+    set(PLATFORM_INCLUDES "")
+
+elseif(WIN32)
+    set(GLFW_DIR ${CMAKE_SOURCE_DIR}/libs/glfw)
+    set(GLM_DIR  ${CMAKE_SOURCE_DIR}/libs/glm)
+
+    set(PLATFORM_LIBS
+            ${GLFW_DIR}/lib-mingw-w64/libglfw3.a
+            opengl32
+            gdi32
+            user32
+            shell32
+    )
+    set(PLATFORM_INCLUDES
+            ${GLFW_DIR}/include
+            ${GLM_DIR}
+    )
+endif()
+
+# -------------------------------------------------------
 # Includes
-include_directories(include)
+# -------------------------------------------------------
 
+include_directories(
+        include
+        ${PLATFORM_INCLUDES}
+)
+
+# -------------------------------------------------------
 # Source files
+# -------------------------------------------------------
+
 add_executable(LearnOpenGL
         src/main.cpp
         src/glad.c
@@ -21,22 +61,11 @@ add_executable(LearnOpenGL
         src/shader/stage.cpp
 )
 
+# -------------------------------------------------------
 # Link libraries
-target_link_libraries(LearnOpenGL
-        glfw
-        glm::glm
-        OpenGL::GL
-)
+# -------------------------------------------------------
 
-# macOS frameworks
-if(APPLE)
-    target_link_libraries(LearnOpenGL
-            "-framework Cocoa"
-            "-framework IOKit"
-            "-framework CoreVideo"
-    )
-endif()
-
+target_link_libraries(LearnOpenGL ${PLATFORM_LIBS})
 
 # -------------------------------------------------------
 # Copy shaders directory after build
