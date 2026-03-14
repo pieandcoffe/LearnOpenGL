@@ -3,10 +3,9 @@
 //
 
 #include "shader/program.h"
+#include "shader/stage.h"
 
 #include <iostream>
-
-#include "shader/stage.h"
 
 ShaderProgram::ShaderProgram()
 {

@@ -3,16 +3,16 @@
 //
 
 #include "viewport/window.h"
+#include "graphics.h"
+#include "viewport/dimensions.h"
 
 #include <iostream>
-
-#include "viewport/dimensions.h"
 
 namespace Viewport
 {
     Window::Window(const char* title, const int width, const int height)
         : m_window(nullptr)
-        , m_dimensions(width, height) // FIXED: width first, then height
+        , m_dimensions(std::make_unique<Dimensions>(width, height))
         , m_title(title)
     {
     }
@@ -76,18 +76,18 @@ namespace Viewport
         }
 
         setupCallbacks();
-        m_dimensions.updateFromWindow(m_window);
+        m_dimensions->updateFromWindow(m_window);
 
         std::cout << "Window initialized successfully" << std::endl;
         std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-        std::cout << "Window size: " << m_dimensions.getWindowWidth() << "x" << m_dimensions.getWindowHeight()
+        std::cout << "Window size: " << m_dimensions->getWindowWidth() << "x" << m_dimensions->getWindowHeight()
                   << std::endl;
-        std::cout << "Framebuffer size: " << m_dimensions.getBufferWidth() << "x" << m_dimensions.getBufferHeight()
+        std::cout << "Framebuffer size: " << m_dimensions->getBufferWidth() << "x" << m_dimensions->getBufferHeight()
                   << std::endl;
 
-        if (m_dimensions.isHiDPI())
+        if (m_dimensions->isHiDPI())
         {
-            std::cout << "HiDPI display detected (pixel scale: " << m_dimensions.getPixelScale() << "x)" << std::endl;
+            std::cout << "HiDPI display detected (pixel scale: " << m_dimensions->getPixelScale() << "x)" << std::endl;
         }
 
         return true;
@@ -130,32 +130,32 @@ namespace Viewport
 
     const Dimensions& Window::getDimensions() const
     {
-        return m_dimensions;
+        return *m_dimensions;
     }
 
     int Window::getWidth() const
     {
-        return m_dimensions.getWindowWidth();
+        return m_dimensions->getWindowWidth();
     }
 
     int Window::getHeight() const
     {
-        return m_dimensions.getWindowHeight();
+        return m_dimensions->getWindowHeight();
     }
 
     int Window::getFramebufferWidth() const
     {
-        return m_dimensions.getBufferWidth();
+        return m_dimensions->getBufferWidth();
     }
 
     int Window::getFramebufferHeight() const
     {
-        return m_dimensions.getBufferHeight();
+        return m_dimensions->getBufferHeight();
     }
 
     float Window::getAspectRatio() const
     {
-        return m_dimensions.getAspectRatio();
+        return m_dimensions->getAspectRatio();
     }
 
     // Private methods
@@ -173,8 +173,8 @@ namespace Viewport
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required for macOS
 
-        m_window = glfwCreateWindow(m_dimensions.getWindowWidth(), m_dimensions.getWindowHeight(),
-                                    m_title.c_str(), // FIXED: Use m_title instead of hardcoded string
+        m_window = glfwCreateWindow(m_dimensions->getWindowWidth(), m_dimensions->getWindowHeight(),
+                                    m_title.c_str(),
                                     nullptr, nullptr);
 
         if (m_window == nullptr)
@@ -197,10 +197,10 @@ namespace Viewport
         }
 
         // Update dimensions before applying viewport
-        m_dimensions.updateFromWindow(m_window);
+        m_dimensions->updateFromWindow(m_window);
 
         // Apply viewport using framebuffer dimensions
-        m_dimensions.applyViewport();
+        m_dimensions->applyViewport();
 
         return true;
     }
@@ -221,10 +221,10 @@ namespace Viewport
         if (windowInstance)
         {
             // Update dimensions
-            windowInstance->m_dimensions.updateFromWindow(window);
+            windowInstance->m_dimensions->updateFromWindow(window);
 
             // Apply new viewport
-            windowInstance->m_dimensions.applyViewport();
+            windowInstance->m_dimensions->applyViewport();
 
             std::cout << "Viewport resized to: " << width << "x" << height << std::endl;
         }

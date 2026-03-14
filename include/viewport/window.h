@@ -5,15 +5,17 @@
 #ifndef LEARNOPENGL_WINDOW_H
 #define LEARNOPENGL_WINDOW_H
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "settings.h"
+
+#include <memory>
 #include <string>
 
-#include "dimensions.h"
-#include "settings.h"
+class GLFWwindow;
 
 namespace Viewport
 {
+    class Dimensions;
+
     /**
      * @brief Handles creation and management of a GLFW window and OpenGL context.
      *
@@ -156,9 +158,9 @@ namespace Viewport
         float getAspectRatio() const;
 
       private:
-        GLFWwindow* m_window;    ///< Pointer to the GLFW window.
-        Dimensions m_dimensions; ///< Window and framebuffer dimensions.
-        std::string m_title;     ///< Title displayed on the window.
+        GLFWwindow* m_window;                       ///< Pointer to the GLFW window.
+        std::unique_ptr<Dimensions> m_dimensions;   ///< Window and framebuffer dimensions.
+        std::string m_title;                        ///< Title displayed on the window.
 
         /**
          * @brief Initializes GLFW and configures OpenGL version hints.

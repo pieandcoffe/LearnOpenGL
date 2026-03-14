@@ -1,9 +1,9 @@
-#include <vector>
-
 #include "shader/program.h"
 #include "shader/stage.h"
 #include "viewport/settings.h"
 #include "viewport/window.h"
+
+#include <vector>
 
 int main()
 {

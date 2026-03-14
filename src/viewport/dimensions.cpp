@@ -4,6 +4,8 @@
 
 #include "viewport/dimensions.h"
 
+#include "graphics.h"
+
 namespace Viewport
 {
     // Getters

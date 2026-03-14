@@ -5,9 +5,9 @@
 #ifndef LEARNOPENGL_DIMENSIONS_HPP
 #define LEARNOPENGL_DIMENSIONS_HPP
 
-#include <GLFW/glfw3.h>
-
 #include "viewport/settings.h"
+
+class GLFWwindow;
 
 namespace Viewport
 {
