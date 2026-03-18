@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 project(LearnOpenGL)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # -------------------------------------------------------
 # Platform-specific configuration
@@ -40,32 +40,61 @@ elseif(WIN32)
 endif()
 
 # -------------------------------------------------------
-# Includes
-# -------------------------------------------------------
-
-include_directories(
-        include
-        ${PLATFORM_INCLUDES}
-)
-
-# -------------------------------------------------------
 # Source files
 # -------------------------------------------------------
 
-add_executable(LearnOpenGL
+set(SOURCES
         src/main.cpp
         src/glad.c
-        src/viewport/dimensions.cpp
-        src/viewport/window.cpp
+
+        # Platform
+        src/platform/WindowHandle.cpp
+        src/platform/InputHandle.cpp
+
+        # Shader
         src/shader/program.cpp
         src/shader/stage.cpp
+)
+
+set(HEADERS
+        # Core
+        include/core/Config.h
+
+        # Platform
+        include/platform/WindowHandle.h
+        include/platform/InputHandle.h
+
+        # Shader
+        include/shader/program.h
+        include/shader/stage.h
+
+        # Types
+        include/types/Dimensions.h
+        include/platform/GlfwUserData.h
+)
+
+# -------------------------------------------------------
+# Target
+# -------------------------------------------------------
+
+add_executable(LearnOpenGL ${SOURCES} ${HEADERS})
+
+# -------------------------------------------------------
+# Include directories
+# -------------------------------------------------------
+
+target_include_directories(LearnOpenGL PRIVATE
+        include
+        ${PLATFORM_INCLUDES}
 )
 
 # -------------------------------------------------------
 # Link libraries
 # -------------------------------------------------------
 
-target_link_libraries(LearnOpenGL ${PLATFORM_LIBS})
+target_link_libraries(LearnOpenGL PRIVATE
+        ${PLATFORM_LIBS}
+)
 
 # -------------------------------------------------------
 # Copy shaders directory after build
@@ -73,13 +102,8 @@ target_link_libraries(LearnOpenGL ${PLATFORM_LIBS})
 
 add_custom_command(
         TARGET LearnOpenGL POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory
-        ${CMAKE_BINARY_DIR}/shaders
-)
-
-add_custom_command(
-        TARGET LearnOpenGL POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/shaders
         ${CMAKE_BINARY_DIR}/shaders
+        COMMENT "Copying shaders to build directory"
 )

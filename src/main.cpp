@@ -1,19 +1,37 @@
+#include <iostream>
+#include <vector>
+
+#include "graphics.h"
+
+#include "core/Config.h"
+#include "platform/InputHandle.h"
+#include "platform/WindowHandle.h"
 #include "shader/program.h"
 #include "shader/stage.h"
-#include "viewport/settings.h"
-#include "viewport/window.h"
 
-#include <vector>
 
 int main()
 {
     // Create window
-    Viewport::Window window(Settings::WINDOW_TITLE);
+    Platform::WindowHandle window {};
 
     if (!window.init())
     {
         return -1;
     }
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cerr << "[main] gladLoadGLLoader failed\n";
+        return -1;
+    }
+
+    Platform::InputHandle input_handler {window.handle()};
+    if (!input_handler.init())
+    {
+        return -1;
+    }
+
 
     std::vector vertices = {
         -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f,
@@ -52,10 +70,10 @@ int main()
     // === Render loop ===
     while (!window.shouldClose())
     {
-        window.processInput();
+        input_handler.pollHeld();
 
-        window.clear(Settings::CLEAR_COLOR_R, Settings::CLEAR_COLOR_G, Settings::CLEAR_COLOR_B,
-                     Settings::CLEAR_COLOR_A);
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         program.bind();
         glBindVertexArray(VAO);
